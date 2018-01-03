@@ -8,6 +8,7 @@ class NewItem extends Component {
 
   handleChange = event => {
     // Do something when the state of this input changes.
+    this.setState({value: event.target.value});
   };
 
   handleSubmit = event => {

@@ -27,6 +27,9 @@ class Application extends Component {
     // Set the initial state,
   };
 
+  addItem = (item) => {
+    this.setState({items: [item, ...this.state.items]});
+  };
   // How are we going to manipualte the state?
   // Ideally, users are going to want to add, remove,
   // and check off items, right?
