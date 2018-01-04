@@ -18,8 +18,9 @@ class NewItem extends Component {
     event.preventDefault();
 
     // Do something when a new value is submitted.
-
+    onSubmit({value, id: uniqueId(), packed: false} );
     // Reset the state of the component.
+    this.setState({value: ''});
   };
 
   render() {
