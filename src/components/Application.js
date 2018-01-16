@@ -4,6 +4,8 @@ import CountDown from './CountDown';
 import NewItem from './NewItem';
 import Items from './Items';
 
+import ItemStore from '../lib/itemStore';
+
 import './Application.css';
 import Item from './Item';
 
@@ -23,38 +25,52 @@ const defaultState = [
 
 class Application extends Component {
   state = {
-    items: defaultState
+    items: ItemStore.getItems()
     // Set the initial state,
   };
 
-  addItem = (item) => {
-    this.setState({items: [item, ...this.state.items]});
-  };
+  // addItem = (item) => {
+  //   this.setState({items: [item, ...this.state.items]});
+  // };
+  //
+  // removeItem = (id) => {
+  // 	console.log('remove id', id);
+  // 	this.setState({items: this.state.items.filter( item => item.id !== id)});
+  // };
+  //
+  // toggleItem = (itemToToggle) => {
+  // 	const items = this.state.items.map( item => {
+  // 		if (item.id !== itemToToggle) return item;
+  // 		return {...item,  packed : !item.packed};
+	 //  });
+  //
+  // 	this.setState({items});
+  // };
 
-  removeItem = (id) => {
-  	console.log('remove id', id);
-  	this.setState({items: this.state.items.filter( item => item.id !== id)});
-  };
-
-  toggleItem = (itemToToggle) => {
-  	const items = this.state.items.map( item => {
-  		if (item.id !== itemToToggle) return item;
-  		return {...item,  packed : !item.packed};
-	  });
-
-  	this.setState({items});
-  };
   // How are we going to manipualte the state?
   // Ideally, users are going to want to add, remove,
   // and check off items, right?
 
+	componentDidMount() {
+		console.log('did mount');
+		ItemStore.on('change', this.updateItems)
+	}
+
+	componentWillUnmount() {
+		ItemStore.off('change', this.updateItems)
+	}
+
+	updateItems = () => {
+		console.log('update items');
+		this.setState({items: ItemStore.getItems()})
+	};
 
 	markAllAsUnpacked = ()=> {
-		const items = this.state.items.map( item => {
-			return {...item,  packed : false};
-		});
-
-		this.setState({items});
+		// const items = this.state.items.map( item => {
+		// 	return {...item,  packed : false};
+		// });
+		//
+		// this.setState({items});
 
 	};
 
@@ -68,10 +84,10 @@ class Application extends Component {
 
     return (
       <div className="Application">
-        <NewItem onSubmit={this.addItem}/>
+        <NewItem/>
         <CountDown />
-        <Items title="Unpacked Items" items={unpackedItems} onRemove={this.removeItem} onToggle={this.toggleItem}/>
-        <Items title="Packed Items" items={packedItems} onRemove={this.removeItem} onToggle={this.toggleItem}/>
+        <Items title="Unpacked Items" items={unpackedItems}/>
+        <Items title="Packed Items" items={packedItems}/>
         <button className="button full-width" onClick={this.markAllAsUnpacked}>Mark All As Unpacked</button>
       </div>
     );
