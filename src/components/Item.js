@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import './Item.css';
-import {removeItem, toggleItem} from '../actions/actions';
+//import {removeItem, toggleItem} from '../actions/actions';
 class Item extends Component {
 
   handleChange = () => {
-    toggleItem(this.props.item);
+    //toggleItem(this.props.item);
+      this.props.onCheckOff(this.props.item.id);
   };
 
   handleRemove = () => {
   	console.log('handle remove', this.props.item);
-    removeItem(this.props.item)
+  	this.props.onRemove(this.props.item.id);
+    //removeItem(this.props.item)
   };
 
 
