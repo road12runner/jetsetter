@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
 import uniqueId from 'lodash/uniqueId';
 import CountDown from './CountDown';
 import NewItem from './NewItem';
@@ -10,23 +9,23 @@ import ItemStore from '../lib/itemStore';
 import './Application.css';
 import Item from './Item';
 
-// const defaultState = [
-//   { value: 'Pants', id: uniqueId(), packed: false },
-//   { value: 'Jacket', id: uniqueId(), packed: false },
-//   { value: 'iPhone Charger', id: uniqueId(), packed: false },
-//   { value: 'MacBook', id: uniqueId(), packed: false },
-//   { value: 'Sleeping Pills', id: uniqueId(), packed: true },
-//   { value: 'Underwear', id: uniqueId(), packed: false },
-//   { value: 'Hat', id: uniqueId(), packed: false },
-//   { value: 'T-Shirts', id: uniqueId(), packed: false },
-//   { value: 'Belt', id: uniqueId(), packed: false },
-//   { value: 'Passport', id: uniqueId(), packed: true },
-//   { value: 'Sandwich', id: uniqueId(), packed: true },
-// ];
+const defaultState = [
+  { value: 'Pants', id: uniqueId(), packed: false },
+  { value: 'Jacket', id: uniqueId(), packed: false },
+  { value: 'iPhone Charger', id: uniqueId(), packed: false },
+  { value: 'MacBook', id: uniqueId(), packed: false },
+  { value: 'Sleeping Pills', id: uniqueId(), packed: true },
+  { value: 'Underwear', id: uniqueId(), packed: false },
+  { value: 'Hat', id: uniqueId(), packed: false },
+  { value: 'T-Shirts', id: uniqueId(), packed: false },
+  { value: 'Belt', id: uniqueId(), packed: false },
+  { value: 'Passport', id: uniqueId(), packed: true },
+  { value: 'Sandwich', id: uniqueId(), packed: true },
+];
 
 class Application extends Component {
   state = {
-    //items: ItemStore.getItems()
+    items: ItemStore.getItems()
     // Set the initial state,
   };
 
@@ -54,16 +53,16 @@ class Application extends Component {
 
 	componentDidMount() {
 		console.log('did mount');
-		//ItemStore.on('change', this.updateItems)
+		ItemStore.on('change', this.updateItems)
 	}
 
 	componentWillUnmount() {
-		//ItemStore.off('change', this.updateItems)
+		ItemStore.off('change', this.updateItems)
 	}
 
 	updateItems = () => {
 		console.log('update items');
-		//this.setState({items: ItemStore.getItems()})
+		this.setState({items: ItemStore.getItems()})
 	};
 
 	markAllAsUnpacked = ()=> {
@@ -78,8 +77,8 @@ class Application extends Component {
   render() {
     // Get the items from state
 
-    const unpackedItems = this.props.items.filter(item =>  item.packed === false);
-	  const packedItems = this.props.items.filter(item =>  item.packed === true);
+    const unpackedItems = this.state.items.filter(item =>  item.packed === false);
+	  const packedItems = this.state.items.filter(item =>  item.packed === true);
     console.log(unpackedItems);
 
 
@@ -95,10 +94,4 @@ class Application extends Component {
   }
 }
 
-const mapStateToProps = (state) =>{
-	return {
-		items: state.items
-	}
-};
-
-export default connect(mapStateToProps)(Application);
+export default Application;
