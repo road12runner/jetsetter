@@ -15,8 +15,11 @@ const initialState =  [
 	{ value: 'Sandwich', id: uniqueId(), packed: true },
 ];
 
+export function getAllItems() {
+	return initialState;
+}
 
-export default function (state = initialState, action ) {
+export default function (state = [], action ) {
 	if (action.type === actionsTypes.ADD_ITEM) {
 		const item = action.item;
 		return [...state,  item ];
@@ -34,6 +37,9 @@ export default function (state = initialState, action ) {
 			}
 			return item;
 		});
+	}
+	if (action.type === actionsTypes.GET_ITEMS) {
+		return [...action.items];
 	}
 
 

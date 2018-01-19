@@ -6,6 +6,7 @@ import NewItem from './NewItem';
 import Items from './Items';
 
 import ItemStore from '../lib/itemStore';
+import * as actions from '../actions/items-actions';
 
 import './Application.css';
 import Item from './Item';
@@ -54,6 +55,7 @@ class Application extends Component {
 
 	componentDidMount() {
 		console.log('did mount');
+		this.props.getAllItems();
 		//ItemStore.on('change', this.updateItems)
 	}
 
@@ -101,4 +103,4 @@ const mapStateToProps = (state) =>{
 	}
 };
 
-export default connect(mapStateToProps)(Application);
+export default connect(mapStateToProps, {getAllItems: actions.getItems})(Application);
